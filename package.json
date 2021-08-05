@@ -45,5 +45,9 @@
       "schema-validator.js"
     ]
   },
-  "runkitExampleFilename": "example.js"
+  "runkitExampleFilename": "example.js",
+  "dependencies": {
+    "fast-dice-coefficient": "^1.0.3",
+    "fastest-levenshtein": "^1.0.12"
+  }
 }
