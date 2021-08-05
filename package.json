@@ -1,0 +1,50 @@
+{
+  "name": "quick-match",
+  "version": "0.0.1",
+  "description": "Fast string matcher conceived for quick replies chat and multiple choice scenario.",
+  "main": "index.js",
+  "scripts": {
+    "benchmark": "node bench.js",
+    "lint:fix": "standard --fix",
+    "test:lint": "standard",
+    "test:unit": "tap -J test/*.test.js test/**/*.test.js",
+    "test": "npm run test:lint && npm run test:unit"
+  },
+  "precommit": "test",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alainrk/quick-match.git"
+  },
+  "keywords": [
+    "string",
+    "match",
+    "dice",
+    "coefficient",
+    "levenshtein",
+    "distance",
+    "fast",
+    "quickreply"
+  ],
+  "author": "Alain Di Chiappari <alain.devcs@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alainrk/quick-match/issues"
+  },
+  "homepage": "https://github.com/alainrk/quick-match#readme",
+  "devDependencies": {
+    "benchmark": "^2.1.4",
+    "pre-commit": "^1.2.2",
+    "semver": "^7.1.0",
+    "standard": "^16.0.1",
+    "tap": "^15.0.0"
+  },
+  "engines": {
+    "node": ">= 10.0.0"
+  },
+  "standard": {
+    "ignore": [
+      "schema-validator.js"
+    ]
+  },
+  "runkitExampleFilename": "example.js"
+}
