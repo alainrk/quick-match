@@ -5,11 +5,11 @@ const suite = new benchmark.Suite()
 
 const { diceCoefficient } = require('../dices')
 
-suite.add('for', function () {
+suite.add('for - different', function () {
   return diceCoefficient('tiella polpo e pomodoro', 'pizza al pomodoro', 'for')
 })
 
-suite.add('foreach', function () {
+suite.add('foreach - different', function () {
   return diceCoefficient('tiella polpo e pomodoro', 'pizza al pomodoro', 'foreach')
 })
 
@@ -19,6 +19,14 @@ suite.add('for - equal', function () {
 
 suite.add('foreach - equal', function () {
   return diceCoefficient('xxxxxxxxxxxxx', 'xxxxxxxxxxxx', 'foreach')
+})
+
+suite.add('for - trivial', function () {
+  return diceCoefficient('x', 'x', 'for')
+})
+
+suite.add('foreach - trivial', function () {
+  return diceCoefficient('x', 'x', 'foreach')
 })
 
 suite.on('cycle', (e) => {
