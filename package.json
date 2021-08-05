@@ -30,11 +30,10 @@
   "bugs": {
     "url": "https://github.com/alainrk/quick-match/issues"
   },
-  "homepage": "https://github.com/alainrk/quick-match#readme",
+  "homepage": "https://github.com/alainrk/quick-match#README.md",
   "devDependencies": {
     "benchmark": "^2.1.4",
     "pre-commit": "^1.2.2",
-    "semver": "^7.1.0",
     "standard": "^16.0.1",
     "tap": "^15.0.0"
   },
