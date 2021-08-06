@@ -1,13 +1,55 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "type": "object",
-    "properties": {
-      "distanceAlgorithm": { "type": "string", "default": "dice", "enum": ["dice", "levenshtein"] },
-      "minPreStemmingLength": { "type": "number", "default": 4, "minimum": 1 },
-      "minPostStemmingLength": { "type": "number", "default": 4, "minimum": 1 },
-      "weightIntersectionMultiplier": { "type": "number", "default": 1 },
-      "minLengthCandidate": { "type": "number", "default": 3, "minimum": 1 },
-      "distanceThreshold": { "type": "number", "default": -1000 },
-      "maxCandidateWords": { "type": "number", "default": 5, "minimum": 1 }
-    }
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"type": "object",
+	"properties": {
+		"algorithm": {
+			"type": "string",
+			"default": "dice",
+			"enum": ["dice", "levenshtein"]
+		},
+		"enableStemming": {
+			"type": "boolean",
+			"default": true
+		},
+		"stemming": {
+			"type": "object",
+            "default": { "language": "en", "minPreStemmingLength": 4, "minPostStemmingLength": 4 },
+			"properties": {
+				"language": {
+					"type": "string",
+					"default": "en"
+				},
+				"minPreStemmingLength": {
+					"type": "number",
+					"default": 4,
+					"minimum": 1
+				},
+				"minPostStemmingLength": {
+					"type": "number",
+					"default": 4,
+					"minimum": 1
+				}
+			}
+		},
+		"limits": {
+			"type": "object",
+            "default": { "minLengthCandidate": 3, "maxCandidateWords": 5 },
+			"properties": {
+				"minLengthCandidate": {
+					"type": "number",
+					"default": 3,
+					"minimum": 1
+				},
+				"maxCandidateWords": {
+					"type": "number",
+					"default": 5,
+					"minimum": 1
+				}
+			}
+		},
+		"weightIntersectionMultiplier": {
+			"type": "number",
+			"default": 1
+		}
+	}
 }
