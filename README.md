@@ -1,13 +1,9 @@
 # Quick Match
 
 Conversational interfaces are increasingly popular.
-
 Artificial intelligence, NLP/NLU solutions are at the forefront. 
-
 But, there is often the need for something simple, blazingly fast, and "offline" to solve the text matching problem. 
-
 This is a common issue with chat **Quick Replies**, multiple choice answers, and **vocal** interfaces (even less reliable).
-
 **Quick Match** provides a toolkit to address all these problems in the best possible way.
 
 Do you have a good idea or want to make the matching algorithm even more efficient? *Collaborate with us!*
