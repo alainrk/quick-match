@@ -48,10 +48,28 @@ class QuickMatch {
 
     console.log(`\nAlgorithm: ${this.options.distanceAlgorithm} - [${src}]`)
 
-    for (const c of candidates) {
+    let max = -Infinity
+    let min = Infinity
+    let minCandidateIdx, maxCandidateIdx
+    for (let i = 0; i < candidates.length; i++) {
+      const c = candidates[i]
       const res = this.algorithm(src, c.text)
-      console.log(`${res}\t ${c.text}`)
+
+      c.originalScore = res
+
+      if (res < min) {
+        min = res
+        minCandidateIdx = i
+      }
+      if (res > max) {
+        max = res
+        maxCandidateIdx = i
+      }
+      //console.log(`${res}\t ${c.text}`)
     }
+
+    console.log(JSON.stringify(candidates, ' ', 2))
+    console.log(min, max, minCandidateIdx, maxCandidateIdx)
   }
 }
 
@@ -60,7 +78,7 @@ const qmd = new QuickMatch({ distanceAlgorithm: 'dice' })
 const qml = new QuickMatch({ distanceAlgorithm: 'levenshtein' })
 
 qmd.run('pizza', ['cane', 'pane', 'pezzo'])
-qml.run('pizza', ['cane', 'pane', 'pezzo'])
+qml.run('pizza', ['pezza', 'pane', 'pezzo'])
  
 //qmd.run('pizza', [{ text: 'pezza' }, { text: 'pane', keywords: [] }, { text: 'pezzo' }])
 //qml.run('pizza', ['pezza', 'pane', 'pezzo'])
@@ -68,3 +86,4 @@ qml.run('pizza', ['cane', 'pane', 'pezzo'])
 //qmd.run('test con la pizza', ['voglio la pezza', 'test per il pane', 'con un test di pezzo'])
 //qml.run('test con la pizza', ['voglio la pezza', 'test per il pane', 'con un test di pezzo'])
   
+module.exports = { QuickMatch }
