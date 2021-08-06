@@ -1,4 +1,4 @@
-const { distance, closest } = require('fastest-levenshtein')
+const { distance } = require('fastest-levenshtein')
 const dice = require('fast-dice-coefficient')
 const Ajv = require("ajv")
 
@@ -27,12 +27,30 @@ class QuickMatch {
     this.candidatesValidator = ajv.compile(candidatesSchema)
   }
 
+  normalizeCandidates (candidates) {
+    return candidates.reduce((acc, c) => {
+      const item = {}
+      if (typeof c === 'string') {
+        item.text = c
+        item.keywords = []
+      } else {
+        item.text = c.text
+        item.keywords = c.keywords || []
+      }
+      acc.push(item)
+      return acc
+    }, [])
+  }
+
   run (src, candidates) {
     if (!this.candidatesValidator(candidates)) throw new Error('Candidates has not a valid format!')
-    console.log('Algorithm:', this.options.distanceAlgorithm)
+    candidates = this.normalizeCandidates(candidates)
+
+    console.log(`\nAlgorithm: ${this.options.distanceAlgorithm} - [${src}]`)
+
     for (const c of candidates) {
-      const res = this.algorithm(src, c)
-      console.log(`${res}\t${src} => ${c}`)
+      const res = this.algorithm(src, c.text)
+      console.log(`${res}\t ${c.text}`)
     }
   }
 }
@@ -41,12 +59,12 @@ class QuickMatch {
 const qmd = new QuickMatch({ distanceAlgorithm: 'dice' })
 const qml = new QuickMatch({ distanceAlgorithm: 'levenshtein' })
 
-qmd.run('pizza', ['pezza', 'pane', 'pezzo'])
-qml.run('pizza', ['pezza', 'pane', 'pezzo'])
+qmd.run('pizza', ['cane', 'pane', 'pezzo'])
+qml.run('pizza', ['cane', 'pane', 'pezzo'])
  
-qmd.run('pizza', [{ text: 'pezza' }, { text: 'pane', keywords: [] }, { text: 'pezzo' }])
-qml.run('pizza', ['pezza', 'pane', 'pezzo'])
+//qmd.run('pizza', [{ text: 'pezza' }, { text: 'pane', keywords: [] }, { text: 'pezzo' }])
+//qml.run('pizza', ['pezza', 'pane', 'pezzo'])
  
-qmd.run('test con la pizza', ['voglio la pezza', 'test per il pane', 'con un test di pezzo'])
-qml.run('test con la pizza', ['voglio la pezza', 'test per il pane', 'con un test di pezzo'])
+//qmd.run('test con la pizza', ['voglio la pezza', 'test per il pane', 'con un test di pezzo'])
+//qml.run('test con la pizza', ['voglio la pezza', 'test per il pane', 'con un test di pezzo'])
   
