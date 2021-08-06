@@ -3,6 +3,7 @@ const dice = require('fast-dice-coefficient')
 const Ajv = require("ajv")
 
 const candidatesSchema = require('./schema/candidates.json') 
+const optionsValidator = require('./schema/options.json') 
 
 //console.log(distance('fast', 'faster'))
 //console.log(closest('fast', ['slow', 'faster', 'fastest']))
@@ -15,16 +16,21 @@ DISTANCE_ALGORITHMS = {
 
 class QuickMatch {
   constructor (options = {}) {
-    this.options = options
-
-    if (!this.options.distanceAlgorithm) {
-      this.options.distanceAlgorithm = 'dice'
-    }
-    if (!DISTANCE_ALGORITHMS[this.options.distanceAlgorithm]) throw new Error('Not valid distance algorithm given')
-    this.algorithm = DISTANCE_ALGORITHMS[this.options.distanceAlgorithm] 
-
     const ajv = new Ajv()
     this.candidatesValidator = ajv.compile(candidatesSchema)
+
+    console.log(options)
+    this.options = this.initOptions(options)
+    console.log(this.options)
+    this.algorithm = DISTANCE_ALGORITHMS[this.options.distanceAlgorithm] 
+  }
+
+  initOptions (options) {
+    const ajv = new Ajv({ useDefaults: true }) // Apply defaults in schema
+    ajv.addSchema(optionsValidator)
+    this.optionsValidator = ajv.compile(optionsValidator)
+    if (!this.optionsValidator(options)) throw new Error('Options is not in a valid format.')
+    return options
   }
 
   normalizeCandidates (candidates) {
