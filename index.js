@@ -5,10 +5,6 @@ const Ajv = require('ajv')
 const candidatesSchema = require('./schema/candidates.json')
 const optionsValidator = require('./schema/options.json')
 
-// console.log(distance('fast', 'faster'))
-// console.log(closest('fast', ['slow', 'faster', 'fastest']))
-// console.log(dice('javascript', 'coffeescript'))
-
 const DISTANCE_ALGORITHMS = {
   dice: dice,
   levenshtein: distance
@@ -78,10 +74,10 @@ class QuickMatch {
   }
 }
 
-const qmd = new QuickMatch({ algorithm: 'dice' })
+// const qmd = new QuickMatch({ algorithm: 'dice' })
 // const qml = new QuickMatch({ algorithm: 'levenshtein' })
 
-qmd.run('pizza', ['cane', 'pane', 'pezzo'])
+// qmd.run('I want a pizza', ['Free hot dog here', 'Pizza for sale', 'Rent your cola'])
 // qml.run('pizza', ['pezza', 'pane', 'pezzo'])
 
 // qmd.run('pizza', [{ text: 'pezza' }, { text: 'pane', keywords: [] }, { text: 'pezzo' }])
@@ -89,5 +85,21 @@ qmd.run('pizza', ['cane', 'pane', 'pezzo'])
 
 // qmd.run('test con la pizza', ['voglio la pezza', 'test per il pane', 'con un test di pezzo'])
 // qml.run('test con la pizza', ['voglio la pezza', 'test per il pane', 'con un test di pezzo'])
+
+const qm = new QuickMatch({
+  algorithm: 'levenshtein',
+  enableStemming: true,
+  stemming: { language: 'en', minPreStemmingLength: 4, minPostStemmingLength: 4 },
+  limits: { minLengthCandidate: 3, maxCandidateWords: 5 },
+  weightIntersectionMultiplier: 1
+})
+
+qm.run('I want a pizza',
+  [
+    { text: 'Free hot dog here', keywords: ['hot dog', 'free'] },
+    { text: 'Pizza for sale', keywords: ['pizza', 'margherita'] },
+    { text: 'Rent your cola', keywords: ['coke', 'cola'] }
+  ]
+)
 
 module.exports = { QuickMatch }
