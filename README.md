@@ -47,7 +47,27 @@ const qm = new QuickMatch({
   enableStemming: true,
   stemming: { language: 'en', minPreStemmingLength: 4, minPostStemmingLength: 4 },
   limits: { minLengthCandidate: 3, maxCandidateWords: 5 },
-  weightIntersectionMultiplier: 1
+  weightIntersectionMultiplier: 1,
+  numbers: {
+    enableDigits: true,
+    enableCardinals: true,
+    enableOrdinals: true,
+    maxDigit: 10,
+    cardinals: [
+      'one',   'two',
+      'three', 'four',
+      'five',  'six',
+      'seven', 'eigth',
+      'nine',  'ten'
+    ],
+    ordinals: [
+      'first',   'second',
+      'third',   'fourth',
+      'fifth',   'sixth',
+      'seventh', 'eighth',
+      'ninth',   'tenth'
+    ]
+  }
 })
 
 qm.run('I want a pizza',

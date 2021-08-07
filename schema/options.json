@@ -11,6 +11,45 @@
 			"type": "boolean",
 			"default": true
 		},
+		"numbers": {
+			"type": "object",
+			"default": {
+              "enableDigits": true,
+              "enableCardinals": true,
+              "enableOrdinals": true,
+              "maxDigit": 10,
+              "cardinals": ["one", "two", "three", "four", "five", "six", "seven", "eigth", "nine", "ten"],
+              "ordinals": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"]
+            },
+            "properties": {
+              "enableDigits": {
+                "type": "boolean",
+                "default": true
+              },
+              "enableCardinals": {
+                "type": "boolean",
+                "default": true
+              },
+              "enableOrdinals": { 
+                "type": "boolean",
+                "default": true
+              },
+              "maxDigit": {
+                "type": "number",
+                "default": 10
+              },
+              "cardinals": {
+                "type": "array",
+                "items": { "type": "string" },
+                "default": ["one", "two", "three", "four", "five", "six", "seven", "eigth", "nine", "ten"]
+              },
+              "ordinals": {
+                "type": "array",
+                "items": { "type": "string" },
+                "default": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"]
+              }
+            }
+		},
 		"stemming": {
 			"type": "object",
             "default": { "language": "en", "minPreStemmingLength": 4, "minPostStemmingLength": 4 },
