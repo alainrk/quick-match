@@ -43,14 +43,9 @@ class QuickMatch {
     }, [])
   }
 
-  run (src, candidates) {
-    if (!this.candidatesValidator(candidates)) throw new Error('Candidates has not a valid format!')
-    candidates = this.normalizeCandidates(candidates)
-
-    console.log(`\nAlgorithm: ${this.options.algorithm} - [${src}]`)
-
-    let max = -Infinity
-    let min = Infinity
+  applyAlgorithm (src, candidates) {
+    let maxScore = -Infinity
+    let minScore = Infinity
     let minCandidateIdx, maxCandidateIdx
 
     for (let i = 0; i < candidates.length; i++) {
@@ -59,18 +54,34 @@ class QuickMatch {
 
       c.originalScore = res
 
-      if (res < min) {
-        min = res
+      if (res < minScore) {
+        minScore = res
         minCandidateIdx = i
       }
-      if (res > max) {
-        max = res
+      if (res > maxScore) {
+        maxScore = res
         maxCandidateIdx = i
       }
     }
+    return {
+      minCandidateIdx,
+      maxCandidateIdx,
+      minScore,
+      maxScore,
+      candidates
+    }
+  }
+
+  run (src, candidates) {
+    if (!this.candidatesValidator(candidates)) throw new Error('Candidates has not a valid format!')
+    candidates = this.normalizeCandidates(candidates)
+
+    console.log(`\nAlgorithm: ${this.options.algorithm} - [${src}]`)
+
+    const { minCandidateIdx, maxCandidateIdx, minScore, maxScore } = this.applyAlgorithm(src, candidates)
 
     console.log(JSON.stringify(candidates, ' ', 2))
-    console.log(min, max, minCandidateIdx, maxCandidateIdx)
+    console.log(minScore, maxScore, minCandidateIdx, maxCandidateIdx)
   }
 }
 
@@ -78,7 +89,8 @@ class QuickMatch {
 // qmd.run('I want a pizza', ['Free hot dog here', 'Pizza for sale', 'Rent your cola'])
 
 const qm = new QuickMatch({
-  algorithm: 'levenshtein',
+  algorithm: 'dice',
+  // algorithm: 'levenshtein',
   enableStemming: true,
   stemming: { language: 'en', minPreStemmingLength: 4, minPostStemmingLength: 4 },
   limits: { minLengthCandidate: 3, maxCandidateWords: 5 },
