@@ -16,8 +16,18 @@ class QuickMatch {
     this.candidatesValidator = ajv.compile(candidatesSchema)
 
     this.options = this.initOptions(options)
-    console.log(this.options)
     this.algorithm = DISTANCE_ALGORITHMS[this.options.algorithm]
+
+    this.digits = (
+      (maxn) => {
+        const res = new Array(maxn)
+        for (let i = 1; i < maxn + 1; i++) res[i - 1] = i
+        return res
+      }
+    )(this.options.numbers.maxDigit)
+    this.digitsSet = new Set(this.digits) // Search purpose
+
+    console.log(this.options)
   }
 
   initOptions (options) {
@@ -72,17 +82,33 @@ class QuickMatch {
       minScore,
       maxScore,
       bestCandidateIdx,
+      bestCandidate: candidates[bestCandidateIdx],
       candidates
     }
   }
 
+  retrieveNumber (text) {
+    const words = text.split(/\s+/)
+    if (words.length > this.options.numbers.maxWordsEnablingNumbers) return null
+    if (this.options.numbers.enableDigits) {
+      if (this.digitsSet.has(text)) return parseInt(text)
+    }
+  }
+
+  normalizeSrc (src) {
+    return src.trim()
+  }
+
   run (src, candidates) {
+    const originalSrc = src
+    src = this.normalizeSrc(src)
     if (!this.candidatesValidator(candidates)) throw new Error('Candidates has not a valid format!')
     candidates = this.normalizeCandidates(candidates)
 
     console.log(`\nAlgorithm: ${this.options.algorithm} - [${src}]`)
 
     const result = this.applyAlgorithm(src, candidates)
+    result.text = originalSrc // Remove monkey patching
 
     console.log(JSON.stringify(result, ' ', 2))
   }

@@ -18,6 +18,7 @@
               "enableCardinals": true,
               "enableOrdinals": true,
               "maxDigit": 10,
+              "maxWordsEnablingNumbers": 2,
               "cardinals": ["one", "two", "three", "four", "five", "six", "seven", "eigth", "nine", "ten"],
               "ordinals": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"]
             },
@@ -37,6 +38,10 @@
               "maxDigit": {
                 "type": "number",
                 "default": 10
+              },
+              "maxWordsEnablingNumbers": {
+                "type": "number",
+                "default": 2
               },
               "cardinals": {
                 "type": "array",
