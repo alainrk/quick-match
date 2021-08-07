@@ -10,36 +10,14 @@ Do you have a good idea or want to make the matching algorithm even more efficie
 
 ## Usage
 
-Simple initialization with default algorithm (Dice's coefficient)
+Simple initialization with default algorithm:
 
 ```js
 const qm = new QuickMatch()
 qm.run('I want a pizza', ['Free hot dog here', 'Pizza for sale', 'Rent your cola'])
 ```
 
-Result
-
-```json
-[
-  {
-    "text": "Free hot dog here",
-    "keywords": [],
-    "originalScore": 0.06896551724137931
-  },
-  {
-    "text": "Pizza for sale",
-    "keywords": [],
-    "originalScore": 0.3076923076923077
-  },
-  {
-    "text": "Rent your cola",
-    "keywords": [],
-    "originalScore": 0.15384615384615385
-  }
-]
-```
-
-A lot of customization with options for every detail
+A lot of customization with options for every detail:
 
 ```js
 const qm = new QuickMatch({
@@ -79,33 +57,40 @@ qm.run('I want a pizza',
 )
 ```
 
-Result
+Result:
 
 ```json
-[
-  {
-    "text": "Free hot dog here",
-    "keywords": [
-      "hot dog",
-      "free"
-    ],
-    "originalScore": 15
-  },
-  {
-    "text": "Pizza for sale",
-    "keywords": [
-      "pizza",
-      "margherita"
-    ],
-    "originalScore": 13
-  },
-  {
-    "text": "Rent your cola",
-    "keywords": [
-      "coke",
-      "cola"
-    ],
-    "originalScore": 12
-  }
-]
+{
+  "minCandidateIdx": 0,
+  "maxCandidateIdx": 1,
+  "minScore": 0.06896551724137931,
+  "maxScore": 0.3076923076923077,
+  "bestCandidateIdx": 1,
+  "candidates": [
+    {
+      "text": "Free hot dog here",
+      "keywords": [
+        "hot dog",
+        "free"
+      ],
+      "originalScore": 0.06896551724137931
+    },
+    {
+      "text": "Pizza for sale",
+      "keywords": [
+        "pizza",
+        "margherita"
+      ],
+      "originalScore": 0.3076923076923077
+    },
+    {
+      "text": "Rent your cola",
+      "keywords": [
+        "coke",
+        "cola"
+      ],
+      "originalScore": 0.15384615384615385
+    }
+  ]
+}
 ```

@@ -63,11 +63,15 @@ class QuickMatch {
         maxCandidateIdx = i
       }
     }
+
+    const bestCandidateIdx = this.options.algorithm === 'dice' ? maxCandidateIdx : minCandidateIdx
+
     return {
       minCandidateIdx,
       maxCandidateIdx,
       minScore,
       maxScore,
+      bestCandidateIdx,
       candidates
     }
   }
@@ -78,10 +82,9 @@ class QuickMatch {
 
     console.log(`\nAlgorithm: ${this.options.algorithm} - [${src}]`)
 
-    const { minCandidateIdx, maxCandidateIdx, minScore, maxScore } = this.applyAlgorithm(src, candidates)
+    const result = this.applyAlgorithm(src, candidates)
 
-    console.log(JSON.stringify(candidates, ' ', 2))
-    console.log(minScore, maxScore, minCandidateIdx, maxCandidateIdx)
+    console.log(JSON.stringify(result, ' ', 2))
   }
 }
 
