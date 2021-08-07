@@ -52,6 +52,7 @@ class QuickMatch {
     let max = -Infinity
     let min = Infinity
     let minCandidateIdx, maxCandidateIdx
+
     for (let i = 0; i < candidates.length; i++) {
       const c = candidates[i]
       const res = this.algorithm(src, c.text)
@@ -66,7 +67,6 @@ class QuickMatch {
         max = res
         maxCandidateIdx = i
       }
-      // console.log(`${res}\t ${c.text}`)
     }
 
     console.log(JSON.stringify(candidates, ' ', 2))
@@ -75,16 +75,7 @@ class QuickMatch {
 }
 
 // const qmd = new QuickMatch({ algorithm: 'dice' })
-// const qml = new QuickMatch({ algorithm: 'levenshtein' })
-
 // qmd.run('I want a pizza', ['Free hot dog here', 'Pizza for sale', 'Rent your cola'])
-// qml.run('pizza', ['pezza', 'pane', 'pezzo'])
-
-// qmd.run('pizza', [{ text: 'pezza' }, { text: 'pane', keywords: [] }, { text: 'pezzo' }])
-// qml.run('pizza', ['pezza', 'pane', 'pezzo'])
-
-// qmd.run('test con la pizza', ['voglio la pezza', 'test per il pane', 'con un test di pezzo'])
-// qml.run('test con la pizza', ['voglio la pezza', 'test per il pane', 'con un test di pezzo'])
 
 const qm = new QuickMatch({
   algorithm: 'levenshtein',
