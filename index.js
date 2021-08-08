@@ -10,7 +10,8 @@ const DISTANCE_ALGORITHMS = {
   levenshtein: distance
 }
 
-const log = (...argv) => {
+// eslint-disable-next-line
+function log (...argv) {
   if (process.env.NODE_ENV === 'test') return
   console.log(argv)
 }
@@ -80,13 +81,13 @@ class QuickMatch {
     this.digits = (
       (maxn) => {
         const res = new Array(maxn)
-        for (let i = 1; i < maxn + 1; i++) res[i - 1] = i
+        for (let i = 1; i < maxn + 1; i++) res[i - 1] = i.toString()
         return res
       }
     )(this.options.numbers.maxDigit)
     this.digitsSet = new Set(this.digits) // Search purpose
 
-    log(this.options)
+    // log(this.options)
   }
 
   initOptions (options) {
@@ -144,7 +145,6 @@ class QuickMatch {
 
     if (!this.candidatesValidator(candidates)) throw new Error('Candidates has not a valid format!')
     candidates = this.normalizeCandidates(candidates)
-    log(candidates)
     const result = new Result(this.options.algorithm, originalSrc, candidates)
 
     // log(`\nAlgorithm: ${this.options.algorithm} - [${src}]`)
@@ -157,27 +157,5 @@ class QuickMatch {
     return result.build()
   }
 }
-
-// const qmd = new QuickMatch({ algorithm: 'dice' })
-// qmd.run('I want a pizza', ['Free hot dog here', 'Pizza for sale', 'Rent your cola'])
-
-const qm = new QuickMatch({
-  algorithm: 'dice',
-  // algorithm: 'levenshtein',
-  enableStemming: true,
-  stemming: { language: 'en', minPreStemmingLength: 4, minPostStemmingLength: 4 },
-  limits: { minLengthCandidate: 3, maxCandidateWords: 5 },
-  weightIntersectionMultiplier: 1
-})
-
-const result = qm.run('I want a pizza',
-  [
-    { text: 'Free hot dog here', keywords: ['hot dog', 'free'] },
-    { text: 'Pizza for sale', keywords: ['pizza', 'margherita'] },
-    { text: 'Rent your cola', keywords: ['coke', 'cola'] }
-  ]
-)
-
-log(result)
 
 module.exports = { QuickMatch }
