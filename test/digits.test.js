@@ -14,12 +14,20 @@ test('simple digit matches', (t) => {
   t.same(res.bestCandidate.text, 'foo')
 })
 
-test('out of bound digit match', (t) => {
-  t.plan(2)
+test('out of bound maxDigit', (t) => {
+  t.plan(1)
   const qm = new QuickMatch({ numbers: { enableDigits: true, maxDigit: 3 } })
   const candidates = ['foo', 'bar', 'zoo', 'asd', 'qwe']
 
   const res = qm.run('5', candidates)
   t.not(res.numberMatch, true)
-  t.not(res.numberMatchType, 'digit')
+})
+
+test('out of bound digit candidates', (t) => {
+  t.plan(1)
+  const qm = new QuickMatch({ numbers: { enableDigits: true, maxDigit: 10 } })
+  const candidates = ['foo', 'bar', 'zoo', 'asd', 'qwe']
+
+  const res = qm.run('8', candidates)
+  t.not(res.numberMatch, true)
 })

@@ -121,17 +121,14 @@ class QuickMatch {
     }
   }
 
-  applyMatchNumber (text, result) {
-    const words = text.split(/\s+/)
-    if (words.length > this.options.numbers.maxWordsEnablingNumbers) {
-      return false
-    }
-    if (this.options.numbers.enableDigits) {
-      if (this.digitsSet.has(text)) {
-        const idx = parseInt(text) - 1
-        result.setNumberMatch('digit', idx)
-        return true
-      }
+  applyMatchNumber (src, candidates, result) {
+    const words = src.split(/\s+/)
+    if (words.length > this.options.numbers.maxWordsEnablingNumbers) return false
+    if (this.options.numbers.enableDigits && this.digitsSet.has(src)) {
+      const idx = parseInt(src) - 1
+      if (idx >= candidates.length) return false
+      result.setNumberMatch('digit', idx)
+      return true
     }
   }
 
@@ -148,7 +145,7 @@ class QuickMatch {
     const result = new Result(this.options.algorithm, originalSrc, candidates)
 
     // log(`\nAlgorithm: ${this.options.algorithm} - [${src}]`)
-    if (this.applyMatchNumber(src, result)) {
+    if (this.applyMatchNumber(src, candidates, result)) {
       return result.build()
     }
 
