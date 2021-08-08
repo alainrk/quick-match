@@ -10,6 +10,11 @@ const DISTANCE_ALGORITHMS = {
   levenshtein: distance
 }
 
+const log = (...argv) => {
+  if (process.env.NODE_ENV === 'test') return
+  console.log(argv)
+}
+
 class Result {
   constructor (algorithm, text, candidates) {
     this.algorithm = algorithm
@@ -81,7 +86,7 @@ class QuickMatch {
     )(this.options.numbers.maxDigit)
     this.digitsSet = new Set(this.digits) // Search purpose
 
-    console.log(this.options)
+    log(this.options)
   }
 
   initOptions (options) {
@@ -139,10 +144,10 @@ class QuickMatch {
 
     if (!this.candidatesValidator(candidates)) throw new Error('Candidates has not a valid format!')
     candidates = this.normalizeCandidates(candidates)
-    console.log(candidates)
+    log(candidates)
     const result = new Result(this.options.algorithm, originalSrc, candidates)
 
-    // console.log(`\nAlgorithm: ${this.options.algorithm} - [${src}]`)
+    // log(`\nAlgorithm: ${this.options.algorithm} - [${src}]`)
     if (this.applyMatchNumber(src, result)) {
       return result.build()
     }
@@ -173,6 +178,6 @@ const result = qm.run('I want a pizza',
   ]
 )
 
-console.log(JSON.stringify(result, ' ', 2))
+log(result)
 
 module.exports = { QuickMatch }
