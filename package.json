@@ -7,7 +7,8 @@
     "benchmark": "node bench.js",
     "lint:fix": "standard --fix",
     "test:lint": "standard",
-    "test:unit": "tap -J test/*.test.js test/**/*.test.js",
+    "test:unit": "NODE_ENV=test tap -J --no-check-coverage test/*.test.js",
+    "__test:unit": "tap -J test/*.test.js test/**/*.test.js",
     "test": "npm run test:lint",
     "__test": "npm run test:lint && npm run test:unit"
   },

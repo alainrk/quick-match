@@ -5,9 +5,75 @@ const Ajv = require('ajv')
 const candidatesSchema = require('./schema/candidates.json')
 const optionsValidator = require('./schema/options.json')
 
+// TODO: remove this ASAP!
+const console = {
+  log: (argv) => {
+    if (process.env.NODE_ENV !== 'test') console.log(...argv)
+  }
+}
+
 const DISTANCE_ALGORITHMS = {
   dice: dice,
   levenshtein: distance
+}
+
+class Result {
+  constructor (algorithm) {
+    this.algorithm = algorithm
+    this.minScore = Infinity
+    this.maxScore = -Infinity
+    this.candidates = []
+    this.minCandidateIdx = null
+    this.maxCandidateIdx = null
+    this.bestCandidateIdx = null
+    this.bestCandidate = null
+    this.numberMatch = undefined
+    this.numberMatchType = undefined
+  }
+
+  addCandidate (candidate) {
+    this.candidates.push(candidate)
+    if (candidate.score < this.minScore) {
+      this.minScore = candidate.score
+      this.minCandidateIdx = this.candidates.length - 1
+    }
+    if (candidate.score > this.maxScore) {
+      this.maxScore = candidate.score
+      this.maxCandidateIdx = this.candidates.length - 1
+    }
+    return this
+  }
+
+  /*
+   * Add all candidates all together for non-score algorithm matches (e.g. number matching)
+   * */
+  addAllCandidates (candidates) {
+    this.candidates = candidates
+  }
+
+  setNumberMatch (type, idx) {
+    if (!['digit', 'cardinal', 'ordinal'].includes(type)) throw new Error(`Type ${type} is not a valid number match result`)
+    this.numberMatch = true
+    this.numberMatchType = type
+    this.bestCandidateIdx = idx
+    return this
+  }
+
+  build () {
+    if (!this.candidates || this.candidates.length === 0) throw new Error('Cannot build solution, no candidates in result')
+    if (!this.numberMatch) {
+      if (this.algorithm === 'dice') {
+        this.bestCandidateIdx = this.maxCandidateIdx
+      } else if (this.algorithm === 'levenshtein') {
+        this.bestCandidateIdx = this.minCandidateIdx
+      } else {
+        throw new Error('Not supported algorithm')
+      }
+    }
+    if (!this.bestCandidateIdx && this.bestCandidateIdx !== 0) throw new Error('Cannot build solution, no best candidate in result')
+    this.bestCandidate = candidates[this.bestCandidateIdx]
+    return this
+  }
 }
 
 class QuickMatch {
@@ -62,7 +128,7 @@ class QuickMatch {
       const c = candidates[i]
       const res = this.algorithm(src, c.text)
 
-      c.originalScore = res
+      c.score = res
 
       if (res < minScore) {
         minScore = res
@@ -105,12 +171,18 @@ class QuickMatch {
     if (!this.candidatesValidator(candidates)) throw new Error('Candidates has not a valid format!')
     candidates = this.normalizeCandidates(candidates)
 
-    console.log(`\nAlgorithm: ${this.options.algorithm} - [${src}]`)
+    // console.log(`\nAlgorithm: ${this.options.algorithm} - [${src}]`)
+    const number = this.retrieveNumber(src)
+    if (number) {
+      const idx = numberMatched - 1
+      return { bestCandidateIdx: idx, bestCandidate: candidates[idx], matchedNumber: true, candidates }
+    }
 
     const result = this.applyAlgorithm(src, candidates)
     result.text = originalSrc // Remove monkey patching
 
     console.log(JSON.stringify(result, ' ', 2))
+    return result
   }
 }
 
