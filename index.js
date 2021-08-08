@@ -5,24 +5,18 @@ const Ajv = require('ajv')
 const candidatesSchema = require('./schema/candidates.json')
 const optionsValidator = require('./schema/options.json')
 
-// TODO: remove this ASAP!
-const console = {
-  log: (argv) => {
-    if (process.env.NODE_ENV !== 'test') console.log(...argv)
-  }
-}
-
 const DISTANCE_ALGORITHMS = {
   dice: dice,
   levenshtein: distance
 }
 
 class Result {
-  constructor (algorithm) {
+  constructor (algorithm, text, candidates) {
     this.algorithm = algorithm
     this.minScore = Infinity
     this.maxScore = -Infinity
-    this.candidates = []
+    this.candidates = candidates
+    this.text = text
     this.minCandidateIdx = null
     this.maxCandidateIdx = null
     this.bestCandidateIdx = null
@@ -31,27 +25,21 @@ class Result {
     this.numberMatchType = undefined
   }
 
-  addCandidate (candidate) {
-    this.candidates.push(candidate)
-    if (candidate.score < this.minScore) {
-      this.minScore = candidate.score
-      this.minCandidateIdx = this.candidates.length - 1
+  setCandidateScore (candidateIdx, score) {
+    this.candidates[candidateIdx].score = score
+    if (score < this.minScore) {
+      this.minScore = score
+      this.minCandidateIdx = candidateIdx
     }
-    if (candidate.score > this.maxScore) {
-      this.maxScore = candidate.score
-      this.maxCandidateIdx = this.candidates.length - 1
+    if (score > this.maxScore) {
+      this.maxScore = score
+      this.maxCandidateIdx = candidateIdx
     }
     return this
   }
 
-  /*
-   * Add all candidates all together for non-score algorithm matches (e.g. number matching)
-   * */
-  addAllCandidates (candidates) {
-    this.candidates = candidates
-  }
-
   setNumberMatch (type, idx) {
+    // TODO: Refactor using symbols
     if (!['digit', 'cardinal', 'ordinal'].includes(type)) throw new Error(`Type ${type} is not a valid number match result`)
     this.numberMatch = true
     this.numberMatchType = type
@@ -71,7 +59,7 @@ class Result {
       }
     }
     if (!this.bestCandidateIdx && this.bestCandidateIdx !== 0) throw new Error('Cannot build solution, no best candidate in result')
-    this.bestCandidate = candidates[this.bestCandidateIdx]
+    this.bestCandidate = this.candidates[this.bestCandidateIdx]
     return this
   }
 }
@@ -119,45 +107,25 @@ class QuickMatch {
     }, [])
   }
 
-  applyAlgorithm (src, candidates) {
-    let maxScore = -Infinity
-    let minScore = Infinity
-    let minCandidateIdx, maxCandidateIdx
-
+  applyAlgorithm (src, candidates, result) {
     for (let i = 0; i < candidates.length; i++) {
       const c = candidates[i]
-      const res = this.algorithm(src, c.text)
-
-      c.score = res
-
-      if (res < minScore) {
-        minScore = res
-        minCandidateIdx = i
-      }
-      if (res > maxScore) {
-        maxScore = res
-        maxCandidateIdx = i
-      }
-    }
-
-    const bestCandidateIdx = this.options.algorithm === 'dice' ? maxCandidateIdx : minCandidateIdx
-
-    return {
-      minCandidateIdx,
-      maxCandidateIdx,
-      minScore,
-      maxScore,
-      bestCandidateIdx,
-      bestCandidate: candidates[bestCandidateIdx],
-      candidates
+      const score = this.algorithm(src, c.text)
+      result.setCandidateScore(i, score)
     }
   }
 
-  retrieveNumber (text) {
+  applyMatchNumber (text, result) {
     const words = text.split(/\s+/)
-    if (words.length > this.options.numbers.maxWordsEnablingNumbers) return null
+    if (words.length > this.options.numbers.maxWordsEnablingNumbers) {
+      return false
+    }
     if (this.options.numbers.enableDigits) {
-      if (this.digitsSet.has(text)) return parseInt(text)
+      if (this.digitsSet.has(text)) {
+        const idx = parseInt(text) - 1
+        result.setNumberMatch('digit', idx)
+        return true
+      }
     }
   }
 
@@ -168,21 +136,20 @@ class QuickMatch {
   run (src, candidates) {
     const originalSrc = src
     src = this.normalizeSrc(src)
+
     if (!this.candidatesValidator(candidates)) throw new Error('Candidates has not a valid format!')
     candidates = this.normalizeCandidates(candidates)
+    console.log(candidates)
+    const result = new Result(this.options.algorithm, originalSrc, candidates)
 
     // console.log(`\nAlgorithm: ${this.options.algorithm} - [${src}]`)
-    const number = this.retrieveNumber(src)
-    if (number) {
-      const idx = numberMatched - 1
-      return { bestCandidateIdx: idx, bestCandidate: candidates[idx], matchedNumber: true, candidates }
+    if (this.applyMatchNumber(src, result)) {
+      return result.build()
     }
 
-    const result = this.applyAlgorithm(src, candidates)
-    result.text = originalSrc // Remove monkey patching
+    this.applyAlgorithm(src, candidates, result)
 
-    console.log(JSON.stringify(result, ' ', 2))
-    return result
+    return result.build()
   }
 }
 
@@ -198,12 +165,14 @@ const qm = new QuickMatch({
   weightIntersectionMultiplier: 1
 })
 
-qm.run('I want a pizza',
+const result = qm.run('I want a pizza',
   [
     { text: 'Free hot dog here', keywords: ['hot dog', 'free'] },
     { text: 'Pizza for sale', keywords: ['pizza', 'margherita'] },
     { text: 'Rent your cola', keywords: ['coke', 'cola'] }
   ]
 )
+
+console.log(JSON.stringify(result, ' ', 2))
 
 module.exports = { QuickMatch }
