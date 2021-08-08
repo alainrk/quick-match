@@ -118,6 +118,9 @@ dist
 # Vim swap files
 *.swp
 
+# Vim session files
+*.vim
+
 # macOS files
 .DS_Store
 
