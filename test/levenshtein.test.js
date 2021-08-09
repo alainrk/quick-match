@@ -40,3 +40,17 @@ test('longest word has to match', (t) => {
   t.same(res.bestCandidateIdx, 0)
   t.same(res.bestCandidate.text, 'footestzoo')
 })
+
+// Specific for levenshtein
+
+test('check distances', (t) => {
+  t.plan(4)
+  const qm = new QuickMatch({ algorithm: 'levenshtein' })
+  const candidates = ['foo', 'fox', 'foox', 'bar']
+
+  const res = qm.run('foo', candidates)
+  t.same(res.candidates[0].score, 0)
+  t.same(res.candidates[1].score, 1)
+  t.same(res.candidates[2].score, 1)
+  t.same(res.candidates[3].score, 3)
+})
