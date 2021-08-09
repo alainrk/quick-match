@@ -3,7 +3,7 @@ const { QuickMatch } = require('..')
 
 test('trivial single choice', (t) => {
   t.plan(2)
-  const qm = new QuickMatch({ algorithm: 'dice' })
+  const qm = new QuickMatch({ algorithm: 'levenshtein' })
   const candidates = ['foo']
 
   const res = qm.run('there is no sense here', candidates)
@@ -13,7 +13,7 @@ test('trivial single choice', (t) => {
 
 test('trivial case - equal', (t) => {
   t.plan(2)
-  const qm = new QuickMatch({ algorithm: 'dice' })
+  const qm = new QuickMatch({ algorithm: 'levenshtein' })
   const candidates = ['foo', 'bar']
 
   const res = qm.run('foo', candidates)
@@ -23,7 +23,7 @@ test('trivial case - equal', (t) => {
 
 test('trivial case - expected match', (t) => {
   t.plan(2)
-  const qm = new QuickMatch({ algorithm: 'dice' })
+  const qm = new QuickMatch({ algorithm: 'levenshtein' })
   const candidates = ['foo', 'bar']
 
   const res = qm.run('this is foo', candidates)
@@ -33,7 +33,7 @@ test('trivial case - expected match', (t) => {
 
 test('longest word has to match', (t) => {
   t.plan(2)
-  const qm = new QuickMatch({ algorithm: 'dice' })
+  const qm = new QuickMatch({ algorithm: 'levenshtein' })
   const candidates = ['footestzoo', 'bar', 'word']
 
   const res = qm.run('bar word footestzoo', candidates)
