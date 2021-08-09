@@ -2,12 +2,24 @@ const { distance } = require('fastest-levenshtein')
 const dice = require('fast-dice-coefficient')
 const Ajv = require('ajv')
 
+// const {
+// kAlgorithmDice,
+// kAlgorithmLevenshtein,
+// kNumberMatchDigit,
+// kNumberMatchOrdinal,
+// kNumberMatchCardinal
+// } = require('./lib/symbols')
+
 const candidatesSchema = require('./schema/candidates.json')
 const optionsValidator = require('./schema/options.json')
 
 const DISTANCE_ALGORITHMS = {
   dice: dice,
   levenshtein: distance
+}
+
+const intersectWithSet = (arr, set) => {
+  return arr.filter(x => set.has(x))
 }
 
 // eslint-disable-next-line
@@ -45,7 +57,6 @@ class Result {
   }
 
   setNumberMatch (type, idx) {
-    // TODO: Refactor using symbols
     if (!['digit', 'cardinal', 'ordinal'].includes(type)) throw new Error(`Type ${type} is not a valid number match result`)
     this.numberMatch = true
     this.numberMatchType = type
@@ -85,7 +96,9 @@ class QuickMatch {
         return res
       }
     )(this.options.numbers.maxDigit)
-    this.digitsSet = new Set(this.digits) // Search purpose
+    this.digitsSet = new Set(this.digits)
+    this.cardinalsSet = new Set(this.options.numbers.cardinals)
+    this.ordinalsSet = new Set(this.options.numbers.ordinals)
 
     // log(this.options)
   }
@@ -122,12 +135,32 @@ class QuickMatch {
   }
 
   applyMatchNumber (src, candidates, result) {
+    let intersection
     const words = src.split(/\s+/)
     if (words.length > this.options.numbers.maxWordsEnablingNumbers) return false
+
     if (this.options.numbers.enableDigits && this.digitsSet.has(src)) {
       const idx = parseInt(src) - 1
       if (idx >= candidates.length) return false
       result.setNumberMatch('digit', idx)
+      return true
+    }
+
+    intersection = intersectWithSet(words, this.ordinalsSet)
+    if (this.options.numbers.enableOrdinals && intersection.length) {
+      const match = intersection[0]
+      const idx = this.options.numbers.ordinals.findIndex(v => v === match)
+      if (idx < 0 || idx >= candidates.length) return false
+      result.setNumberMatch('ordinal', idx)
+      return true
+    }
+
+    intersection = intersectWithSet(words, this.cardinalsSet)
+    if (this.options.numbers.enableCardinals && intersection.length) {
+      const match = intersection[0]
+      const idx = this.options.numbers.cardinals.findIndex(v => v === match)
+      if (idx < 0 || idx >= candidates.length) return false
+      result.setNumberMatch('cardinal', idx)
       return true
     }
   }
