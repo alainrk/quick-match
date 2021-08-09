@@ -1,4 +1,5 @@
 const { distance } = require('fastest-levenshtein')
+// const { Stemmer, Languages } = require('multilingual-stemmer')
 const dice = require('fast-dice-coefficient')
 const Ajv = require('ajv')
 
@@ -74,21 +75,21 @@ class QuickMatch {
     }, [])
   }
 
-  applyAlgorithm (src, candidates, result) {
+  applyAlgorithm (text, candidates, result) {
     for (let i = 0; i < candidates.length; i++) {
       const c = candidates[i]
-      const score = this.algorithm(src, c.text)
+      const score = this.algorithm(text, c.text)
       result.setCandidateScore(i, score)
     }
   }
 
-  applyMatchNumber (src, candidates, result) {
+  applyMatchNumber (text, candidates, result) {
     let intersection
-    const words = src.split(/\s+/)
+    const words = text.split(/\s+/)
     if (words.length > this.options.numbers.maxWordsEnablingNumbers) return false
 
-    if (this.options.numbers.enableDigits && this.digitsSet.has(src)) {
-      const idx = parseInt(src) - 1
+    if (this.options.numbers.enableDigits && this.digitsSet.has(text)) {
+      const idx = parseInt(text) - 1
       if (idx >= candidates.length) return false
       result.setNumberMatch('digit', idx)
       return true
@@ -113,24 +114,34 @@ class QuickMatch {
     }
   }
 
-  normalizeSrc (src) {
-    return src.trim()
+  // applyStemming (text, candidates, result) {
+    // let possibleMatchStems = []
+    // for (const c of candidates) {
+      // const 
+      // if (c.keywords.length) {
+        // possibleMatchStems = this.arrayStemmer(c.keywords)
+      // }
+    // }
+  // }
+
+  normalizeText (text) {
+    return text.toLowerCase().trim()
   }
 
-  run (src, candidates) {
-    const originalSrc = src
-    src = this.normalizeSrc(src)
+  run (text, candidates) {
+    const originalText = text
+    text = this.normalizeText(text)
 
     if (!this.candidatesValidator(candidates)) throw new Error('Candidates has not a valid format!')
     candidates = this.normalizeCandidates(candidates)
-    const result = new Result(this.options.algorithm, originalSrc, candidates)
+    const result = new Result(this.options.algorithm, originalText, candidates)
 
-    // log(`\nAlgorithm: ${this.options.algorithm} - [${src}]`)
-    if (this.applyMatchNumber(src, candidates, result)) {
+    // log(`\nAlgorithm: ${this.options.algorithm} - [${text}]`)
+    if (this.applyMatchNumber(text, candidates, result)) {
       return result.build()
     }
 
-    this.applyAlgorithm(src, candidates, result)
+    this.applyAlgorithm(text, candidates, result)
 
     return result.build()
   }
