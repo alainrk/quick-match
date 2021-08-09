@@ -7,7 +7,6 @@ test('simple digit matches', (t) => {
   const candidates = ['foo', 'bar', 'zoo']
 
   const res = qm.run('1', candidates)
-  console.log(res)
   t.same(res.numberMatch, true)
   t.same(res.numberMatchType, 'digit')
   t.same(res.bestCandidateIdx, 0)
@@ -26,7 +25,6 @@ test('simple cardinal matches', (t) => {
   const candidates = ['foo', 'bar', 'zoo']
 
   const res = qm.run('la due', candidates)
-  console.log(res)
   t.same(res.numberMatch, true)
   t.same(res.numberMatchType, 'cardinal')
   t.same(res.bestCandidateIdx, 1)
@@ -45,7 +43,6 @@ test('simple ordinal matches', (t) => {
   const candidates = ['foo', 'bar', 'zoo']
 
   const res = qm.run('seconda scelta', candidates)
-  console.log(res)
   t.same(res.numberMatch, true)
   t.same(res.numberMatchType, 'ordinal')
   t.same(res.bestCandidateIdx, 1)
