@@ -1,19 +1,10 @@
 const { distance } = require('fastest-levenshtein')
-// const { Stemmer, Languages } = require('multilingual-stemmer')
 const dice = require('fast-dice-coefficient')
 const Ajv = require('ajv')
 
 const { Result } = require('./result')
 const candidatesSchema = require('./schema/candidates.json')
 const optionsValidator = require('./schema/options.json')
-
-// const {
-// kAlgorithmDice,
-// kAlgorithmLevenshtein,
-// kNumberMatchDigit,
-// kNumberMatchOrdinal,
-// kNumberMatchCardinal
-// } = require('./lib/symbols')
 
 const DISTANCE_ALGORITHMS = {
   dice: dice,
@@ -115,13 +106,13 @@ class QuickMatch {
   }
 
   // applyStemming (text, candidates, result) {
-    // let possibleMatchStems = []
-    // for (const c of candidates) {
-      // const 
-      // if (c.keywords.length) {
-        // possibleMatchStems = this.arrayStemmer(c.keywords)
-      // }
-    // }
+  // let possibleMatchStems = []
+  // for (const c of candidates) {
+  // const
+  // if (c.keywords.length) {
+  // possibleMatchStems = this.arrayStemmer(c.keywords)
+  // }
+  // }
   // }
 
   normalizeText (text) {
