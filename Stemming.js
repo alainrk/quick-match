@@ -1,5 +1,6 @@
 const { Stemmer, Languages } = require('multilingual-stemmer')
 
+const WORD_SPLITTER_REGEX = /[\s,.;!:'?|\-()]/
 const AVAILABLE_LANGUAGES = {
   Arabic: Languages.Arabic,
   Danish: Languages.Danish,
@@ -37,7 +38,9 @@ class Stemming {
 
   stemPhrase (phrase) {
     if (typeof phrase !== 'string') throw new Error('String is required')
-    return this.stemArray(phrase.split(/\s+/))
+    const words = phrase.split(WORD_SPLITTER_REGEX).filter(w => w.trim())
+    console.log('WORDS:', words)
+    return this.stemArray(words)
   }
 }
 

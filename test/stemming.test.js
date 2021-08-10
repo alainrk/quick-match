@@ -41,3 +41,15 @@ test('stemming array', (t) => {
     'mar'
   ])
 })
+
+test('stemming phrase, splitting specials', (t) => {
+  t.plan(1)
+  const s = new Stemming('Italian')
+  t.same(s.stemPhrase('mangiare, la pizza? insieme al pizzaiolo: guardando il mare!'), [
+    'mang', 'la',
+    'pizz', 'insiem',
+    'al', 'pizzaiol',
+    'guard', 'il',
+    'mar'
+  ])
+})
