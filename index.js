@@ -6,6 +6,8 @@ const { Result } = require('./result')
 const candidatesSchema = require('./schema/candidates.json')
 const optionsValidator = require('./schema/options.json')
 
+const WORD_SPLITTER_REGEX = /[\s,.;!:'?|\-()]/
+
 const DISTANCE_ALGORITHMS = {
   dice: dice,
   levenshtein: distance
@@ -76,7 +78,7 @@ class QuickMatch {
 
   applyMatchNumber (text, candidates, result) {
     let intersection
-    const words = text.split(/\s+/)
+    const words = text.split(WORD_SPLITTER_REGEX)
     if (words.length > this.options.numbers.maxWordsEnablingNumbers) return false
 
     if (this.options.numbers.enableDigits && this.digitsSet.has(text)) {
