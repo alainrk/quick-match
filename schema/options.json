@@ -57,11 +57,11 @@
 		},
 		"stemming": {
 			"type": "object",
-            "default": { "language": "en", "minPreStemmingLength": 4, "minPostStemmingLength": 4 },
+            "default": { "language": "English", "minPreStemmingLength": 4, "minPostStemmingLength": 4 },
 			"properties": {
 				"language": {
 					"type": "string",
-					"default": "en"
+					"default": "English"
 				},
 				"minPreStemmingLength": {
 					"type": "number",

@@ -2,7 +2,8 @@ const { distance } = require('fastest-levenshtein')
 const dice = require('fast-dice-coefficient')
 const Ajv = require('ajv')
 
-const { Result } = require('./result')
+const { Result } = require('./Result')
+const Stemming = require('./Stemming')
 const candidatesSchema = require('./schema/candidates.json')
 const optionsValidator = require('./schema/options.json')
 
@@ -42,6 +43,7 @@ class QuickMatch {
     this.cardinalsSet = new Set(this.options.numbers.cardinals)
     this.ordinalsSet = new Set(this.options.numbers.ordinals)
 
+    this.stemming = new Stemming(this.options.stemming.language)
     // log(this.options)
   }
 
@@ -71,8 +73,15 @@ class QuickMatch {
   applyAlgorithm (text, candidates, result) {
     for (let i = 0; i < candidates.length; i++) {
       const c = candidates[i]
+      // Main candidate text
       const score = this.algorithm(text, c.text)
       result.setCandidateScore(i, score)
+      // Take also the best from their keywords, if there are any
+      for (let j = 0; j < c.keywords.length; i++) {
+        const kw = c[j]
+        const score = this.algorithm(text, kw)
+        result.setCandidateScore(i, score)
+      }
     }
   }
 
@@ -108,12 +117,12 @@ class QuickMatch {
   }
 
   // applyStemming (text, candidates, result) {
-  // let possibleMatchStems = []
+  // const stemmedTextArr = this.stemming.stemPhrase(text)
   // for (const c of candidates) {
-  // const
-  // if (c.keywords.length) {
-  // possibleMatchStems = this.arrayStemmer(c.keywords)
-  // }
+  // const stemmedCandArr = this.stemming.stemPhrase(c.text).concat(
+  // this.stemming.stemArray(c.keywords)
+  // )
+
   // }
   // }
 

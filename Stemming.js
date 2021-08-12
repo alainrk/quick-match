@@ -39,7 +39,6 @@ class Stemming {
   stemPhrase (phrase) {
     if (typeof phrase !== 'string') throw new Error('String is required')
     const words = phrase.split(WORD_SPLITTER_REGEX).filter(w => w.trim())
-    console.log('WORDS:', words)
     return this.stemArray(words)
   }
 }
