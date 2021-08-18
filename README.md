@@ -1,13 +1,13 @@
-# Quick Match
+<div align="center">
+  <img src="https://github.com/alainrk/quick-match/raw/main/assets/logo.png" width="250" height="auto"/>
+</div>
 
-Conversational interfaces are increasingly popular.
-Artificial intelligence, NLP/NLU solutions are at the forefront. 
-But, there is often the need for something simple, blazingly fast, and "offline" to solve the text matching problem. 
-This is a common issue with chat **Quick Replies**, multiple choice answers, and **vocal** interfaces (even less reliable).
+Conversational interfaces are increasingly popular, Artificial intelligence, NLP/NLU solutions are at the forefront.\
+But, there is often the need for something simple, blazingly fast, and "offline" to solve the text matching problem.\
+This is a common issue with chat **Quick Replies**, multiple choice answers, and **vocal** interfaces (even less reliable).\
 **Quick Match** provides a toolkit to address all these problems in the best possible way.
 
-Do you have a good idea or want to make the matching algorithm even more efficient? *Collaborate with us!*
-
+Do you have a good idea or want to make the matching algorithm even more efficient? [Collaborate!](https://github.com/alainrk/quick-match/pulls)
 ## Usage
 
 Simple initialization with default algorithm:
@@ -36,28 +36,12 @@ const qm = new QuickMatch({
     maxDigit: 10,
     maxWordsEnablingNumbers: 2,
     cardinals: [
-      "one",
-      "two",
-      "three",
-      "four",
-      "five",
-      "six",
-      "seven",
-      "eigth",
-      "nine",
-      "ten"
+      "one", "two", "three", "four", "five",
+      "six", "seven", "eigth", "nine", "ten"
     ],
     ordinals: [
-      "first",
-      "second",
-      "third",
-      "fourth",
-      "fifth",
-      "sixth",
-      "seventh",
-      "eighth",
-      "ninth",
-      "tenth"
+      "first", "second", "third", "fourth", "fifth",
+      "sixth", "seventh", "eighth", "ninth", "tenth"
     ]
   },
   limits: {
@@ -67,13 +51,15 @@ const qm = new QuickMatch({
   weightIntersectionMultiplier: 1
 })
 
-qm.run('I want a pizza',
-  [
-    { text: 'Free hot dog here', keywords: ['hot dog', 'free'] },
-    { text: 'Pizza for sale', keywords: ['pizza', 'margherita'] },
-    { text: 'Rent your cola', keywords: ['coke', 'cola'] }
-  ]
-)
+// Declare your input text, candidates and run the algorithm
+const userInput = 'I want a pizza'
+const candidates = [
+  { text: 'Free hot dog here', keywords: ['hot dog', 'free'] },
+  { text: 'Pizza for sale', keywords: ['pizza', 'margherita'] },
+  { text: 'Rent your cola', keywords: ['coke', 'cola'] }
+]
+
+qm.run(userInput, candidates)
 ```
 
 Result:
