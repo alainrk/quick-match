@@ -14,8 +14,19 @@ const DISTANCE_ALGORITHMS = {
   levenshtein: distance
 }
 
-const intersectWithSet = (arr, set) => {
-  return arr.filter(x => set.has(x))
+/**
+ * Intesection between array/set
+ * @param {Set<string>|string[]} first
+ * @param {Set<string>|string[]} second
+*/
+const intersect = (first, second) => {
+  if (first instanceof Set) {
+    first = Array.from(first)
+  }
+  if (!(second instanceof Set)) {
+    second = new Set(second)
+  }
+  return first.filter(x => second.has(x))
 }
 
 // eslint-disable-next-line
@@ -77,8 +88,8 @@ class QuickMatch {
       const score = this.algorithm(text, c.text)
       result.setCandidateScore(i, score)
       // Take also the best from their keywords, if there are any
-      for (let j = 0; j < c.keywords.length; i++) {
-        const kw = c[j]
+      for (let j = 0; j < c.keywords.length; j++) {
+        const kw = c.keywords[j]
         const score = this.algorithm(text, kw)
         result.setCandidateScore(i, score)
       }
@@ -97,7 +108,7 @@ class QuickMatch {
       return true
     }
 
-    intersection = intersectWithSet(words, this.ordinalsSet)
+    intersection = intersect(words, this.ordinalsSet)
     if (this.options.numbers.enableOrdinals && intersection.length) {
       const match = intersection[0]
       const idx = this.options.numbers.ordinals.findIndex(v => v === match)
@@ -106,7 +117,7 @@ class QuickMatch {
       return true
     }
 
-    intersection = intersectWithSet(words, this.cardinalsSet)
+    intersection = intersect(words, this.cardinalsSet)
     if (this.options.numbers.enableCardinals && intersection.length) {
       const match = intersection[0]
       const idx = this.options.numbers.cardinals.findIndex(v => v === match)
@@ -116,15 +127,33 @@ class QuickMatch {
     }
   }
 
-  // applyStemming (text, candidates, result) {
-  // const stemmedTextArr = this.stemming.stemPhrase(text)
-  // for (const c of candidates) {
-  // const stemmedCandArr = this.stemming.stemPhrase(c.text).concat(
-  // this.stemming.stemArray(c.keywords)
-  // )
+  phraseToStemmedArray (phrase) {
+    return this.stemming.stemArray(
+      phrase.split(WORD_SPLITTER_REGEX)
+        .filter(w => w.length >= this.options.stemming.minPreStemmingLength)
+    ).filter(w => w.length >= this.options.stemming.minPostStemmingLength)
+  }
 
-  // }
-  // }
+  arrayToStemmedArray (arr) {
+    return this.stemming.stemArray(
+      arr.filter(w => w.length >= this.options.stemming.minPreStemmingLength)
+    ).filter(w => w.length >= this.options.stemming.minPostStemmingLength)
+  }
+
+  applyStemming (text, candidates, result) {
+    const stemmedTextArr = this.phraseToStemmedArray(text)
+    result.setStemmedText(stemmedTextArr)
+
+    for (let i = 0; i < candidates.length; i++) {
+      const c = candidates[i]
+      const stemmedCandArr = this.phraseToStemmedArray(c.text).concat(
+        this.arrayToStemmedArray(c.keywords)
+      )
+      const intersections = intersect(stemmedTextArr, stemmedCandArr)
+      result.setStemmedCandidate(i, stemmedCandArr)
+      result.setCandidateStemIntersections(i, intersections)
+    }
+  }
 
   normalizeText (text) {
     return text.toLowerCase().trim()
@@ -144,6 +173,10 @@ class QuickMatch {
     }
 
     this.applyAlgorithm(text, candidates, result)
+
+    if (this.options.enableStemming) {
+      this.applyStemming(text, candidates, result)
+    }
 
     return result.build()
   }

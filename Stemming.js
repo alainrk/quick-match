@@ -28,7 +28,7 @@ class Stemming {
 
   stem (word) {
     if (typeof word !== 'string') throw new Error('String is required')
-    return this.stemmer.stem(word)
+    return this.stemmer.stem(word.toLowerCase())
   }
 
   stemArray (array) {

@@ -5,19 +5,16 @@ const { QuickMatch } = require('.')
 
 const qm = new QuickMatch({
   algorithm: 'dice',
-  // algorithm: 'levenshtein',
   enableStemming: true,
-  stemming: { language: 'en', minPreStemmingLength: 4, minPostStemmingLength: 4 },
-  limits: { minLengthCandidate: 3, maxCandidateWords: 5 },
-  weightIntersectionMultiplier: 1
+  stemming: { language: 'English', minPreStemmingLength: 4, minPostStemmingLength: 4 }
 })
 
-const result = qm.run('I want a pizza',
+const result = qm.run('I wanted a pizza',
   [
-    { text: 'Free hot dog here', keywords: ['hot dog', 'free'] },
+    { text: 'Free hot-dog wanting here', keywords: ['hot-dog', 'free'] },
     { text: 'Pizza for sale', keywords: ['pizza', 'margherita'] },
-    { text: 'Rent your cola', keywords: ['coke', 'cola'] }
+    { text: 'Renting your cola', keywords: ['coke', 'cola'] }
   ]
 )
 
-console.log(result)
+console.log(JSON.stringify(result, ' ', 2))

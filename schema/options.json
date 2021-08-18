@@ -14,50 +14,58 @@
 		"numbers": {
 			"type": "object",
 			"default": {
-              "enableDigits": true,
-              "enableCardinals": true,
-              "enableOrdinals": true,
-              "maxDigit": 10,
-              "maxWordsEnablingNumbers": 2,
-              "cardinals": ["one", "two", "three", "four", "five", "six", "seven", "eigth", "nine", "ten"],
-              "ordinals": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"]
-            },
-            "properties": {
-              "enableDigits": {
-                "type": "boolean",
-                "default": true
-              },
-              "enableCardinals": {
-                "type": "boolean",
-                "default": true
-              },
-              "enableOrdinals": { 
-                "type": "boolean",
-                "default": true
-              },
-              "maxDigit": {
-                "type": "number",
-                "default": 10
-              },
-              "maxWordsEnablingNumbers": {
-                "type": "number",
-                "default": 2
-              },
-              "cardinals": {
-                "type": "array",
-                "items": { "type": "string" },
-                "default": ["one", "two", "three", "four", "five", "six", "seven", "eigth", "nine", "ten"]
-              },
-              "ordinals": {
-                "type": "array",
-                "items": { "type": "string" },
-                "default": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"]
-              }
-            }
+				"enableDigits": true,
+				"enableCardinals": true,
+				"enableOrdinals": true,
+				"maxDigit": 10,
+				"maxWordsEnablingNumbers": 2,
+				"cardinals": ["one", "two", "three", "four", "five", "six", "seven", "eigth", "nine", "ten"],
+				"ordinals": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"]
+			},
+			"properties": {
+				"enableDigits": {
+					"type": "boolean",
+					"default": true
+				},
+				"enableCardinals": {
+					"type": "boolean",
+					"default": true
+				},
+				"enableOrdinals": {
+					"type": "boolean",
+					"default": true
+				},
+				"maxDigit": {
+					"type": "number",
+					"default": 10
+				},
+				"maxWordsEnablingNumbers": {
+					"type": "number",
+					"default": 2
+				},
+				"cardinals": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"default": ["one", "two", "three", "four", "five", "six", "seven", "eigth", "nine", "ten"]
+				},
+				"ordinals": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"default": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"]
+				}
+			}
 		},
 		"stemming": {
 			"type": "object",
-            "default": { "language": "English", "minPreStemmingLength": 4, "minPostStemmingLength": 4 },
+			"default": {
+				"language": "English",
+				"minPreStemmingLength": 4,
+				"minPostStemmingLength": 4
+			},
 			"properties": {
 				"language": {
 					"type": "string",
@@ -77,7 +85,10 @@
 		},
 		"limits": {
 			"type": "object",
-            "default": { "minLengthCandidate": 3, "maxCandidateWords": 5 },
+			"default": {
+				"minLengthCandidate": 3,
+				"maxCandidateWords": 5
+			},
 			"properties": {
 				"minLengthCandidate": {
 					"type": "number",

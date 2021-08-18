@@ -3,10 +3,13 @@ class Result {
     this.algorithm = algorithm
     this.minScore = Infinity
     this.maxScore = -Infinity
+    this.maxIntersections = -Infinity
     this.candidates = candidates
     this.text = text
+    this.stemmedText = []
     this.minCandidateIdx = null
     this.maxCandidateIdx = null
+    this.maxIntersectionsCandidateIdx = null
     this.bestCandidateIdx = null
     this.bestCandidate = null
     this.numberMatch = undefined
@@ -23,6 +26,25 @@ class Result {
       this.maxScore = score
       this.maxCandidateIdx = candidateIdx
     }
+    return this
+  }
+
+  setCandidateStemIntersections (candidateIdx, intersections) {
+    this.candidates[candidateIdx].intersections = intersections
+    if (intersections.length > this.maxIntersections) {
+      this.maxIntersections = intersections.length
+      this.maxIntersectionsCandidateIdx = candidateIdx
+    }
+    return this
+  }
+
+  setStemmedText (arr) {
+    this.stemmedText = arr
+    return this
+  }
+
+  setStemmedCandidate (candidateIdx, arr) {
+    this.candidates[candidateIdx].stemmed = arr
     return this
   }
 
