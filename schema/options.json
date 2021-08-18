@@ -11,6 +11,10 @@
 			"type": "boolean",
 			"default": true
 		},
+		"enableAlgorithmOnKeywords": {
+			"type": "boolean",
+			"default": false
+		},
 		"numbers": {
 			"type": "object",
 			"default": {

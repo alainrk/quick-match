@@ -29,18 +29,13 @@ const intersect = (first, second) => {
   return first.filter(x => second.has(x))
 }
 
-// eslint-disable-next-line
-function log (...argv) {
-  if (process.env.NODE_ENV === 'test') return
-  console.log(argv)
-}
-
 class QuickMatch {
   constructor (options = {}) {
     const ajv = new Ajv()
     this.candidatesValidator = ajv.compile(candidatesSchema)
 
     this.options = this.initOptions(options)
+    // console.log(JSON.stringify(this.options, ' ', 2))
     this.algorithm = DISTANCE_ALGORITHMS[this.options.algorithm]
 
     this.digits = (
@@ -88,10 +83,12 @@ class QuickMatch {
       const score = this.algorithm(text, c.text)
       result.setCandidateScore(i, score)
       // Take also the best from their keywords, if there are any
-      for (let j = 0; j < c.keywords.length; j++) {
-        const kw = c.keywords[j]
-        const score = this.algorithm(text, kw)
-        result.setCandidateScore(i, score)
+      if (this.options.enableAlgorithmOnKeywords) {
+        for (let j = 0; j < c.keywords.length; j++) {
+          const kw = c.keywords[j]
+          const score = this.algorithm(text, kw)
+          result.setCandidateScore(i, score)
+        }
       }
     }
   }
