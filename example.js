@@ -11,7 +11,7 @@ const qm = new QuickMatch({
 
 const result = qm.run('I wanted a pizza',
   [
-    { text: 'Free hot-dog wanting here', keywords: ['hot-dog', 'free'] },
+    { text: 'I want hot-dog here', keywords: ['hot-dog', 'free'] },
     { text: 'Pizza for sale', keywords: ['pizza', 'margherita'] },
     { text: 'Renting your cola', keywords: ['coke', 'cola'] }
   ]

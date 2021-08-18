@@ -21,31 +21,27 @@ A lot of customization with options for every detail:
 
 ```js
 const qm = new QuickMatch({
-  algorithm: 'levenshtein',
+  algorithm: "dice",
   enableStemming: true,
-  stemming: { language: 'en', minPreStemmingLength: 4, minPostStemmingLength: 4 },
-  limits: { minLengthCandidate: 3, maxCandidateWords: 5 },
-  weightIntersectionMultiplier: 1,
+  stemming: {
+    language: "English",
+    minPreStemmingLength: 4,
+    minPostStemmingLength: 4
+  },
   numbers: {
     enableDigits: true,
     enableCardinals: true,
     enableOrdinals: true,
     maxDigit: 10,
-    cardinals: [
-      'one',   'two',
-      'three', 'four',
-      'five',  'six',
-      'seven', 'eigth',
-      'nine',  'ten'
-    ],
-    ordinals: [
-      'first',   'second',
-      'third',   'fourth',
-      'fifth',   'sixth',
-      'seventh', 'eighth',
-      'ninth',   'tenth'
-    ]
-  }
+    maxWordsEnablingNumbers: 2,
+    cardinals: [ "one", "two", "three", "four", "five", "six", "seven", "eigth", "nine", "ten" ],
+    ordinals: [ "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth" ]
+  },
+  limits: {
+    minLengthCandidate: 3,
+    maxCandidateWords: 5
+  },
+  weightIntersectionMultiplier: 1
 })
 
 qm.run('I want a pizza',
@@ -61,36 +57,45 @@ Result:
 
 ```json
 {
-  "minCandidateIdx": 0,
-  "maxCandidateIdx": 1,
-  "minScore": 0.06896551724137931,
-  "maxScore": 0.3076923076923077,
-  "bestCandidateIdx": 1,
+  "algorithm": "dice",
+  "minScore": 0,
+  "maxScore": 0.42105263157894735,
+  "maxIntersections": 1,
   "candidates": [
     {
-      "text": "Free hot dog here",
-      "keywords": [
-        "hot dog",
-        "free"
-      ],
-      "originalScore": 0.06896551724137931
+      "text": "I want hot-dog here",
+      "keywords": [ "hot-dog", "free" ],
+      "score": 0,
+      "stemmed": [ "want", "here", "hot-dog", "free" ],
+      "intersections": [ "want" ]
     },
     {
       "text": "Pizza for sale",
-      "keywords": [
-        "pizza",
-        "margherita"
-      ],
-      "originalScore": 0.3076923076923077
+      "keywords": [ "pizza", "margherita" ],
+      "score": 0,
+      "stemmed": [ "pizza", "sale", "pizza", "margherita" ],
+      "intersections": [ "pizza" ]
     },
     {
-      "text": "Rent your cola",
-      "keywords": [
-        "coke",
-        "cola"
-      ],
-      "originalScore": 0.15384615384615385
+      "text": "Renting your cola",
+      "keywords": [ "coke", "cola" ],
+      "score": 0,
+      "stemmed": [ "rent", "your", "cola", "coke", "cola" ],
+      "intersections": []
     }
-  ]
+  ],
+  "text": "I wanted a pizza",
+  "stemmedText": [ "want", "pizza" ],
+  "minCandidateIdx": 0,
+  "maxCandidateIdx": 1,
+  "maxIntersectionsCandidateIdx": 0,
+  "bestCandidateIdx": 1,
+  "bestCandidate": {
+    "text": "Pizza for sale",
+    "keywords": [ "pizza", "margherita" ],
+    "score": 0,
+    "stemmed": [ "pizza", "sale", "pizza", "margherita" ],
+    "intersections": [ "pizza" ]
+  }
 }
 ```
