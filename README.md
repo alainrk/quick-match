@@ -13,6 +13,8 @@ Do you have a good idea or want to make the matching algorithm even more efficie
 Simple initialization with default algorithm:
 
 ```js
+const { QuickMatch } = require('quick-match')
+
 const qm = new QuickMatch()
 qm.run('I want a pizza', ['Free hot dog here', 'Pizza for sale', 'Rent your cola'])
 ```
@@ -20,6 +22,8 @@ qm.run('I want a pizza', ['Free hot dog here', 'Pizza for sale', 'Rent your cola
 A lot of customization with options for every detail:
 
 ```js
+const { QuickMatch } = require('quick-match')
+
 const qm = new QuickMatch({
   algorithm: "dice",
   enableStemming: true,
