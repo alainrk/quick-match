@@ -1,5 +1,5 @@
 const { test } = require('tap')
-const Stemming = require('../Stemming')
+const Stemming = require('../stemming')
 
 test('rasing error for not available language', (t) => {
   t.plan(1)

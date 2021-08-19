@@ -2,8 +2,8 @@ const { distance } = require('fastest-levenshtein')
 const dice = require('fast-dice-coefficient')
 const Ajv = require('ajv')
 
-const { Result } = require('./Result')
-const Stemming = require('./Stemming')
+const { Result } = require('./result')
+const Stemming = require('./stemming')
 const candidatesSchema = require('./schema/candidates.json')
 const optionsValidator = require('./schema/options.json')
 
