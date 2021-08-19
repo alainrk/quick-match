@@ -16,7 +16,11 @@ Simple initialization with default algorithm:
 const { QuickMatch } = require('quick-match')
 
 const qm = new QuickMatch()
-qm.run('I want a pizza', ['Free hot dog here', 'Pizza for sale', 'Rent your cola'])
+
+const userInput = 'I want a pizza'
+const candidates = ['Free hot dog here', 'Pizza for sale', 'Rent your cola']
+
+const { bestCandidateIdx } = qm.run(userInput, candidates) // 1
 ```
 
 A lot of customization with options for every detail:
@@ -63,7 +67,7 @@ const candidates = [
   { text: 'Rent your cola', keywords: ['coke', 'cola'] }
 ]
 
-qm.run(userInput, candidates)
+const { bestCandidateIdx } = qm.run(userInput, candidates) // 1
 ```
 
 Result:
