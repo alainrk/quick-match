@@ -2,6 +2,10 @@
   <img src="https://github.com/alainrk/quick-match/raw/main/assets/logo.png" width="250" height="auto"/>
 </div>
 
+[![NPM version](https://img.shields.io/npm/v/quick-match.svg?style=flat)](https://www.npmjs.com/package/quick-match)
+<!-- ![CI workflow](https://github.com/fastify/fastify-swagger/workflows/CI%20workflow/badge.svg) -->
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://standardjs.com/)
+
 Conversational interfaces are increasingly popular, Artificial intelligence, NLP/NLU solutions are at the forefront.\
 But, there is often the need for something simple, blazingly fast, and "offline" to solve the text matching problem.\
 This is a common issue with chat **Quick Replies**, multiple choice answers, and **vocal** interfaces (even less reliable).\
