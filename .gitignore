@@ -125,10 +125,6 @@ dist
 # macOS files
 .DS_Store
 
-# lock files
-package-lock.json
-yarn.lock
-
 # editor files
 .vscode
 .idea
