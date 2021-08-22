@@ -1,3 +1,5 @@
+'use strict'
+
 const { QuickMatch } = require('.')
 
 // const qmd = new QuickMatch({ algorithm: 'dice' })

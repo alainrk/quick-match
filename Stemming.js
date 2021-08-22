@@ -1,3 +1,5 @@
+'use strict'
+
 const { Stemmer, Languages } = require('multilingual-stemmer')
 
 const WORD_SPLITTER_REGEX = /[\s,.;!:'?|\-()]/

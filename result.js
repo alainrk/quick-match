@@ -1,3 +1,5 @@
+'use strict'
+
 class Result {
   constructor (algorithm, text, candidates) {
     this.algorithm = algorithm

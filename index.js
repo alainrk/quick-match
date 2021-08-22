@@ -1,3 +1,5 @@
+'use strict'
+
 const { distance } = require('fastest-levenshtein')
 const dice = require('fast-dice-coefficient')
 const Ajv = require('ajv')
