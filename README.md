@@ -2,9 +2,9 @@
   <img src="https://github.com/alainrk/quick-match/raw/main/assets/logo.png" width="250" height="auto"/>
 </div>
 
-[![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)
 [![NPM version](https://img.shields.io/npm/v/quick-match.svg?style=flat)](https://www.npmjs.com/package/quick-match)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://standardjs.com/)
+[![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)
 <!-- ![CI workflow](https://github.com/fastify/fastify-swagger/workflows/CI%20workflow/badge.svg) -->
 
 Conversational interfaces are increasingly popular, Artificial intelligence, NLP/NLU solutions are at the forefront.\
