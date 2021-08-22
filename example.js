@@ -1,9 +1,4 @@
-'use strict'
-
-const { QuickMatch } = require('.')
-
-// const qmd = new QuickMatch({ algorithm: 'dice' })
-// qmd.run('I want a pizza', ['Free hot dog here', 'Pizza for sale', 'Rent your cola'])
+const { QuickMatch } = require('quick-match')
 
 const qm = new QuickMatch({
   algorithm: 'dice',
