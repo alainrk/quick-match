@@ -15,6 +15,12 @@ This is a common issue with chat **Quick Replies**, multiple choice answers, and
 Do you have a good idea or want to make the matching algorithm even more efficient? [Collaborate!](https://github.com/alainrk/quick-match/pulls)
 ## Usage
 
+Install
+
+```
+npm i -s quick-match
+```
+
 Simple initialization with default algorithm:
 
 ```js
