@@ -1,3 +1,5 @@
+# quick-match
+
 ![Build Status](https://github.com/alainrk/quick-match/workflows/Test/badge.svg)
 [![NPM version](https://img.shields.io/npm/v/quick-match.svg?style=flat)](https://www.npmjs.com/package/quick-match)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://standardjs.com/)
