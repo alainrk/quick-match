@@ -1,11 +1,11 @@
-<div align="center">
-  <img src="https://github.com/alainrk/quick-match/raw/main/assets/logo.png" width="250" height="auto"/>
-</div>
-
 ![Build Status](https://github.com/alainrk/quick-match/workflows/Test/badge.svg)
 [![NPM version](https://img.shields.io/npm/v/quick-match.svg?style=flat)](https://www.npmjs.com/package/quick-match)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://standardjs.com/)
 [![stability-stable](https://img.shields.io/badge/stability-stable-green.svg)](https://github.com/emersion/stability-badges#stable)
+
+<div align="center">
+  <img src="https://github.com/alainrk/quick-match/raw/main/assets/example.png" width="250" height="auto"/>
+</div>
 
 Conversational interfaces are increasingly popular, Artificial intelligence, NLP/NLU solutions are at the forefront.\
 But, there is often the need for something simple, blazingly fast, and "offline" to solve the text matching problem.\
