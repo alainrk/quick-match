@@ -1,6 +1,6 @@
 {
   "name": "quick-match",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Fast string matcher conceived for quick replies chat and multiple choice scenario.",
   "main": "index.js",
   "scripts": {
