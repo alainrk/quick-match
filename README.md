@@ -3,16 +3,17 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://standardjs.com/)
 [![stability-stable](https://img.shields.io/badge/stability-stable-green.svg)](https://github.com/emersion/stability-badges#stable)
 
-<div align="center">
-  <img src="https://github.com/alainrk/quick-match/raw/main/assets/example.png" width="250" height="auto"/>
-</div>
-
 Conversational interfaces are increasingly popular, Artificial intelligence, NLP/NLU solutions are at the forefront.\
 But, there is often the need for something simple, blazingly fast, and "offline" to solve the text matching problem.\
 This is a common issue with chat **Quick Replies**, multiple choice answers, and **vocal** interfaces (even less reliable).\
 **Quick Match** provides a toolkit to address all these problems in the best possible way.
 
 Do you have a good idea or want to make the matching algorithm even more efficient? [Collaborate!](https://github.com/alainrk/quick-match/pulls)
+
+<div align="center">
+  <img src="https://github.com/alainrk/quick-match/raw/main/assets/example.png" width="350" height="auto"/>
+</div>
+
 ## Usage
 
 Install
