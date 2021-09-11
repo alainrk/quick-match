@@ -318,7 +318,7 @@ const candidates = [
 const { bestCandidateIdx } = qm.run(userInput, candidates) // 1
 ```
 
-Result:
+Result output format:
 
 ```json
 {
