@@ -18,8 +18,7 @@ test('simple digit matches', (t) => {
 test('simple cardinal matches', (t) => {
   t.plan(4)
   const qm = new QuickMatch({
-    numbers:
-    {
+    numbers: {
       enableCardinals: true,
       cardinals: ['uno', 'due', 'tre']
     }
