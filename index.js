@@ -69,9 +69,11 @@ class QuickMatch {
       if (typeof c === 'string') {
         item.text = c
         item.keywords = []
+        item.label = c
       } else {
         item.text = c.text
         item.keywords = c.keywords || []
+        item.label = c.label || ""
       }
       acc.push(item)
       return acc
@@ -158,15 +160,15 @@ class QuickMatch {
     return text.toLowerCase().trim()
   }
 
-  run (text, candidates) {
+  run (text, candidates, fallback) {
     const originalText = text
     text = this.normalizeText(text)
 
     if (!this.candidatesValidator(candidates)) throw new Error('Candidates has not a valid format!')
     candidates = this.normalizeCandidates(candidates)
-    const result = new Result(this.options.algorithm, originalText, candidates)
+    const result = new Result(this.options, originalText, candidates, fallback)
 
-    // log(`\nAlgorithm: ${this.options.algorithm} - [${text}]`)
+    // console.log(`\nAlgorithm: ${this.options.algorithm} - [${text}]`)
     if (this.applyMatchNumber(text, candidates, result)) {
       return result.build()
     }
