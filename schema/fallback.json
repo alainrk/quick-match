@@ -6,12 +6,7 @@
       "items": {
         "type": "object",
         "properties": {
-          "text": { "type": "string" },
-          "keywords": {
-            "type": "array",
-            "items": { "type": "string" }
-          },
-          "label": { "type": "string" }
+          "text": { "type": "string" }
         },
         "required": ["text"]
       }
