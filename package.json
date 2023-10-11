@@ -36,7 +36,7 @@
     "benchmark": "^2.1.4",
     "pre-commit": "^1.2.2",
     "standard": "^17.0.0",
-    "tap": "^16.0.0"
+    "tap": "^18.5.0"
   },
   "engines": {
     "node": ">= 10.0.0"
